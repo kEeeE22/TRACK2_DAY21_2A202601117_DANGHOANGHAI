@@ -96,7 +96,10 @@ jobs:
         run: |
           ACC=$(python -c "import json; d=json.load(open('outputs/metrics.json')); print(d['accuracy'])")
           echo "accuracy=$ACC" >> $GITHUB_OUTPUT
-
+      - name: Check model
+        run: |
+          ls -lh models/
+          test -f models/model.pkl
       - name: Upload model to Cloud Storage
         # TODO 5: Su dung cloud SDK de upload models/model.pkl len
         #         <bucket>/models/latest/model.pkl.
@@ -110,7 +113,9 @@ jobs:
           blob = bucket.blob('models/latest/model.pkl')
           blob.upload_from_filename('models/model.pkl')
           EOF
-
+      - name: Verify model upload
+        run: |
+          gcloud storage ls gs://${{ secrets.CLOUD_BUCKET }}/models/latest/model.pkl
       - name: Save metrics as artifact
         uses: actions/upload-artifact@v4
         with:
