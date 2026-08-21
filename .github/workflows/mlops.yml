@@ -11,7 +11,7 @@ on:
 permissions:
   contents: read
   id-token: write
-  
+
 jobs:
 
   # ---------------------------------------------------------------------------
@@ -184,5 +184,5 @@ jobs:
             #   sleep 5
             #   curl -sf http://localhost:8000/health && echo "Health check passed." || exit 1
             sudo systemctl restart mlops-serve
-            sleep 5
+            sleep 15
             curl -sf http://localhost:8000/health && echo "Health check passed." || exit 1
